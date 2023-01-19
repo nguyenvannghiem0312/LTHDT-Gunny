@@ -5,7 +5,7 @@ public class Character1 : MonoBehaviour1
 {
     public class Character_1 : BaseChar
     {
-        public void Shoot()
+        public void Shoot(float pow)
         {
             return;
         }
@@ -20,11 +20,15 @@ public class Character1 : MonoBehaviour1
     Control _control = new LeftControl();
     public Animator animator;
     public GameObject Line;
-    public float MoveSpeed { get; set; }
-    public void Hihi()
+    public GameObject weapon;
+    float speedPower = 10, powerMax = 10;
+    float powerUp, power, powerDown;
+
+    /*public float MoveSpeed { get; set; }*/
+    /*public void Hihi()
     {
         Debug.Log("Hello World");
-    }
+    }*/
     public void Move()
     {
         if (_control.LeftDirection())
@@ -46,6 +50,33 @@ public class Character1 : MonoBehaviour1
         else if (_control.DownLine())
         {
             Line.GetComponent<Transform>().eulerAngles += new Vector3(0, 0, -1 * 10 * Time.deltaTime * GetComponent<Transform>().localScale.x);
+        }
+        else if (_control.Shot() != 0)
+        {
+            if(_control.Shot() != 0)
+            {
+                if (powerUp < powerMax)
+                {
+                    powerUp += speedPower * Time.deltaTime;
+                    power = powerUp;
+                }
+                else
+                {
+                    powerDown -= speedPower * Time.deltaTime;
+                    power = powerDown;
+                }
+            }
+        }
+
+        if (Input.GetButtonUp("Jump"))
+        {
+            Vector2 posi = Line.transform.position;
+            Vector2 velo = posi - (Vector2)transform.position;
+            velo.Normalize();
+            Instantiate(weapon, Line.transform.position, Quaternion.identity).GetComponent<Rigidbody2D>().AddForce(velo * power, ForceMode2D.Impulse);
+            powerDown = powerMax;
+            power = 0;
+            powerUp = 0;
         }
     }
 

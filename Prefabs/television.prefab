@@ -10,11 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8212579668427046540}
   - component: {fileID: 8570308735238574302}
+  - component: {fileID: 9214501619861089683}
   - component: {fileID: 1230167827121089664}
   - component: {fileID: 3209817588492320837}
   m_Layer: 0
   m_Name: television
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,6 +87,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &9214501619861089683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3589570588295486556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d7d78f5f45bf394e9fb459cf192bb02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &1230167827121089664
 Rigidbody2D:
   serializedVersion: 4

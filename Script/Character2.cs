@@ -5,7 +5,7 @@ public class Character2 : MonoBehaviour1
 {
     public class Character_2 : BaseChar
     {
-        public void Shoot()
+        public void Shoot(float pow)
         {
             return;
         }
@@ -19,12 +19,11 @@ public class Character2 : MonoBehaviour1
     Character_2 Kernel = new Character_2();
     Control _control = new RightControl();
     public GameObject Line;
+    public GameObject weapon;
+    float speedPower = 10, powerMax = 10;
+    float powerUp, power, powerDown;
     // public Animator animator;
     public float MoveSpeed { get; set; }
-    public void Hihi()
-    {
-        Debug.Log("Hello World");
-    }
     public void Move()
     {
         if (_control.LeftDirection())
@@ -47,9 +46,32 @@ public class Character2 : MonoBehaviour1
         {
             Line.GetComponent<Transform>().eulerAngles += new Vector3(0, 0, -1 * 10 * Time.deltaTime * GetComponent<Transform>().localScale.x);
         }
-        else
+        else if (_control.Shot() != 0)
         {
+            if (_control.Shot() != 0)
+            {
+                if (powerUp < powerMax)
+                {
+                    powerUp += speedPower * Time.deltaTime;
+                    power = powerUp;
+                }
+                else
+                {
+                    powerDown -= speedPower * Time.deltaTime;
+                    power = powerDown;
+                }
+            }
+        }
 
+        if (Input.GetButtonUp("Jump"))
+        {
+            Vector2 posi = Line.transform.position;
+            Vector2 velo = posi - (Vector2)transform.position;
+            velo.Normalize();
+            Instantiate(weapon, Line.transform.position, Quaternion.identity).GetComponent<Rigidbody2D>().AddForce(velo * power, ForceMode2D.Impulse);
+            powerDown = powerMax;
+            power = 0;
+            powerUp = 0;
         }
     }
     // Start is called before the first frame update

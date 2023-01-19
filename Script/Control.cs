@@ -10,6 +10,7 @@ public partial class MonoBehaviour1 : MonoBehaviour
         public bool RightDirection();
         public bool UpLine();
         public bool DownLine();
+        public float Shot();
     }
     public class LeftControl : Control
     {
@@ -29,6 +30,11 @@ public partial class MonoBehaviour1 : MonoBehaviour
         {
             return Input.GetKey(KeyCode.S);
         }
+
+        public float Shot()
+        {
+            return Input.GetAxis("Jump");
+        }
     }
     public class RightControl : Control
     {
@@ -47,6 +53,10 @@ public partial class MonoBehaviour1 : MonoBehaviour
         public bool DownLine()
         {
             return Input.GetKey(KeyCode.DownArrow);
+        }
+        public float Shot()
+        {
+            return Input.GetAxis("Jump");
         }
     }
 }
