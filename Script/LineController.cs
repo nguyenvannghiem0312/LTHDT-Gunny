@@ -42,11 +42,11 @@ public class LineController : MonoBehaviour
         }
         if (Input.GetButtonUp("Jump"))
         {
-            Shot(power);
+            // Shot(power);
         }
     }
 
-    void Shot(float p)
+    /*void Shot(float p)
     {
         Vector2 posi = spawnWeapon.transform.position;
         Vector2 velo = posi - (Vector2)transform.position;
@@ -57,5 +57,5 @@ public class LineController : MonoBehaviour
         powerDown = powerMax;
         power = 0;
         powerUp = 0;
-    }
+    }*/
 }
