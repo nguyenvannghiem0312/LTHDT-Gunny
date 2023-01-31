@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RedBar : MonoBehaviour
 {
+    public float Ratio;
     public Camera _camera;
     public IMediator _mediator2;
     private InterControl _control = new LeftControl();
@@ -40,6 +41,7 @@ public class RedBar : MonoBehaviour
         }
         if (_control.PressSpace())
         {
+            Ratio = 1 - (_camera.transform.position.x - Tr.transform.position.x)/22.5f ;
             Tr.position = new Vector3((float)(_camera.transform.position.x - 22.5), Tr.position.y, Tr.position.z);
             Tr.localScale = new Vector3(0, -0.5f, 0);
             _mediator2.Notify("Shoot");

@@ -10,18 +10,19 @@ public class KernelChar : MonoBehaviour,InterChar
     }
     public void Hurted()
     {
+        HitPoint--;
         _mediator3.Hurt();
         return;
     }
     public float HitPoint { get; set; }
     public float ManaPoint { get; set; }
-    public Animator animator;
-    public InterControl _control;
-    public IMediator _mediator;
-    public IMediator _mediator2;
-    public IMediator _mediator3;
-    public bool MyTurn;
-    public bool IsShoot;
+    public Animator animator { get; set; }
+    public InterControl _control { get; set; }
+    public IMediator _mediator { get; set; }
+    public IMediator _mediator2 { get; set; }
+    public IMediator _mediator3 { get; set; }
+    public bool MyTurn { get; set; }
+    public bool IsShoot { get; set; }
     float a = 0f;
     public void Move()
     {
@@ -43,6 +44,10 @@ public class KernelChar : MonoBehaviour,InterChar
         {
             animator.SetBool("Velocity", false);
         }
+    }
+    void Start()
+    {
+        HitPoint = 10;
     }
     public void Update()
     {
