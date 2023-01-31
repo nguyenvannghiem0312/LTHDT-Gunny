@@ -5,21 +5,34 @@ using UnityEngine;
 public class KernelLine : MonoBehaviour
 {
     public IMediator _mediator;
+    public IMediator _mediator2;
     public InterControl _control;
-    public bool IsLeft;
+    public float Corner;
     public void Move()
     {
+        float i = Time.deltaTime;
         if (_control.UpDirection())
         {
-            transform.eulerAngles += new Vector3(0,0, (float)(1*40*Time.deltaTime));
+            Corner += (float)(1 * 40 * i);
+            transform.eulerAngles += new Vector3(0,0, (float)(1*40*i));
+
         }
         else if (_control.DownDirection())
         {
-            transform.eulerAngles -= new Vector3(0, 0, (float)(1 * 40 * Time.deltaTime));
+            Corner -= (float)(1 * 40 * i);
+            transform.eulerAngles -= new Vector3(0, 0, (float)(1 * 40 * i));
         }
     }
     public void Move(float x, float y, float z)
     {
         transform.position = new Vector3(x, y, z);
+    }
+    private void Start()
+    {
+        Corner = 0f;
+    }
+    public void Update()
+    {
+        Move();
     }
 }

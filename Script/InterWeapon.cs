@@ -8,5 +8,5 @@ public interface InterWeapon
     public float DeltaT { get; set; }
     public float Mass { get; set; }
     public void Move(float x, float y, float z );
-    public void MoveShoot(float corner, float v0, float x, float y, float z);
+    public void MoveShoot();
 }

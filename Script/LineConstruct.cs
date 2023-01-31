@@ -26,13 +26,11 @@ public class LineConstruct
         {
             GO.transform.localScale = new Vector3(2f, 2f, 0f);
             GO.GetComponent<KernelLine>()._control = new LeftControl();
-            GO.GetComponent<KernelLine>().IsLeft = false;
         }
         else
         {
             GO.transform.localScale = new Vector3(-2f, 2f, 0f);
             GO.GetComponent<KernelLine>()._control = new RightControl();
-            GO.GetComponent<KernelLine>().IsLeft = true;
         }
 
     }

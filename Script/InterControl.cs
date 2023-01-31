@@ -8,7 +8,8 @@ public interface InterControl
     public bool RightDirection();
     public bool UpDirection();
     public bool DownDirection();
-    public bool SpaceControl();
+    public bool SpaceDirection();
+    public bool PressSpace();
 }
 public class LeftControl : InterControl
 {
@@ -20,7 +21,11 @@ public class LeftControl : InterControl
     {
         return Input.GetKey(KeyCode.D);
     }
-    public bool SpaceControl()
+    public bool SpaceDirection()
+    {
+        return Input.GetKey(KeyCode.Space);
+    }
+    public bool PressSpace()
     {
         return Input.GetButtonUp("Jump");
     }
@@ -54,5 +59,13 @@ public class RightControl : InterControl
     public bool DownDirection()
     {
         return Input.GetKey(KeyCode.DownArrow);
+    }
+    public bool SpaceDirection()
+    {
+        return Input.GetKey(KeyCode.Space);
+    }
+    public bool PressSpace()
+    {
+        return Input.GetButtonUp("Jump");
     }
 }
