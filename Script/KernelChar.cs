@@ -24,6 +24,7 @@ public class KernelChar : MonoBehaviour,InterChar
     public bool MyTurn { get; set; }
     public bool IsShoot { get; set; }
     float a = 0f;
+    float b = 0f;
     public void Move()
     {
         if (_control.LeftDirection())
@@ -54,18 +55,23 @@ public class KernelChar : MonoBehaviour,InterChar
         if (MyTurn)
         {
             a = a + Time.deltaTime;
+            b = b + Time.deltaTime;
             animator.SetBool("Shoot", false);
             if (a > 2)
             {
                 animator.SetBool("Cry", false);
             }
 
-            Move();
+            if(b> 2.5f)
+            {
+                Move();
+            }
         }
         else
         {
             animator.SetBool("Velocity", false);
             a = 0;
+            b = 0;
         }
     }
 }

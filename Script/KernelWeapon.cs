@@ -42,7 +42,7 @@ public class KernelWeapon : MonoBehaviour, InterWeapon
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Land")
+        if(other.tag == "Land" &&( Math.Abs(transform.position.x - _mediator.Move()) > 1 || Math.Abs(transform.position.y - _mediator.Hurt()) > 1) )
         {
             _mediator2.Notify2(this.gameObject, other,"Switch");
         }

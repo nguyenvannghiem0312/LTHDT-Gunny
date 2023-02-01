@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public interface IMediator
@@ -22,11 +21,11 @@ public class Mediator1 : IMediator
     }
     public float Move()
     {
-        return 0;
+        return Char.GetComponent<KernelChar>().transform.position.x;
     }
     public float Hurt()
     {
-        return 0;
+        return Char.GetComponent<KernelChar>().transform.position.y;
     }
     public void Notify2(GameObject _object, Collider2D other, string ev)
     {
@@ -81,6 +80,8 @@ public class Mediator2 : IMediator
     private GameObject LeftLi;
     private GameObject RightLi;
     private RedBar Red;
+    private Camera MyCamera;
+    private ParticleSystem PS;
     public void Back()
     {
 
@@ -93,7 +94,7 @@ public class Mediator2 : IMediator
     {
         return 0;
     }
-    public Mediator2(GameObject LeftC, GameObject RightC, GameObject LeftW, GameObject RightW, GameObject LeftL, GameObject RightL, RedBar red)
+    public Mediator2(GameObject LeftC, GameObject RightC, GameObject LeftW, GameObject RightW, GameObject LeftL, GameObject RightL, RedBar red, Camera c, ParticleSystem p)
     {
         LeftPlayer = LeftC;
         RightPlayer = RightC;
@@ -102,6 +103,8 @@ public class Mediator2 : IMediator
         LeftLi = LeftL;
         RightLi = RightL;
         Red = red;
+        MyCamera = c;
+        PS = p;
         LeftPlayer.GetComponent<InterChar>()._mediator2 = this;
         RightPlayer.GetComponent<InterChar>()._mediator2 = this;
         LeftWe.GetComponent<InterWeapon>()._mediator2 = this;
@@ -146,31 +149,42 @@ public class Mediator2 : IMediator
     }
     public void Notify2(GameObject _object, Collider2D other, string ev)
     {
-        KernelChar LeftC = this.LeftPlayer.GetComponent<KernelChar>();
-        KernelChar RightC = this.RightPlayer.GetComponent<KernelChar>();
+        KernelChar LeftC = LeftPlayer.GetComponent<KernelChar>();
+        KernelChar RightC = RightPlayer.GetComponent<KernelChar>();
         KernelWeapon LeftWe = this.LeftWe.GetComponent<KernelWeapon>();
         KernelWeapon RightWe = this.RightWe.GetComponent<KernelWeapon>();
+        Camera _Mycamera = MyCamera.GetComponent<Camera>();
         if (ev == "Switch")
         {
             if (LeftC.name == _object.GetComponent<KernelWeapon>()._mediator.Name())
             {
+                PS.transform.position = LeftWe.transform.position;
+                PS.Play();
+                _Mycamera.x = RightC.gameObject.transform.position.x;
+                _Mycamera.IsLeft = false;
+                _Mycamera.Action = true;
                 LeftWe.Move(LeftWe.x0, LeftWe.y0, 0);
                 LeftC.MyTurn = false;
-                RightC.MyTurn = true;
                 LeftWe.IsShoot = false;
+                RightC.MyTurn = true;
                 LeftC.GetComponent<KernelChar>()._mediator3.Back();
                 RightC.GetComponent<KernelChar>()._mediator3.Back();
-                RightWe._mediator3.Notify2(RightWe.gameObject, new Collider2D(), "hihi");
+                //RightWe._mediator3.Notify2(RightWe.gameObject, new Collider2D(), "hihi");
             }
             else
             {
+                PS.transform.position = RightWe.transform.position;
+                PS.Play();
+                _Mycamera.x = LeftC.gameObject.transform.position.x;
+                _Mycamera.IsLeft = true;
+                _Mycamera.Action = true;
                 RightWe.Move(RightWe.x0, RightWe.y0, 0);
-                LeftC.MyTurn = true;
                 RightC.MyTurn = false;
                 RightWe.IsShoot = false;
+                LeftC.MyTurn = true;
                 LeftC.GetComponent<KernelChar>()._mediator3.Back();
                 RightC.GetComponent<KernelChar>()._mediator3.Back();
-                LeftWe._mediator3.Notify2(LeftWe.gameObject, new Collider2D(), "hihi");
+                //LeftWe._mediator3.Notify2(LeftWe.gameObject, new Collider2D(), "hihi");
             }
         }
         else if(ev == "Hurted")
@@ -179,23 +193,23 @@ public class Mediator2 : IMediator
             {
                 RightC.GetComponent<KernelChar>().animator.SetBool("Cry", true);
                 RightC.GetComponent<KernelChar>().Hurted();
-                LeftWe.Move(LeftWe.x0, LeftWe.y0, 0);
-                LeftC.MyTurn = false;
-                RightC.MyTurn = true;
-                LeftWe.IsShoot = false;
-                LeftC.GetComponent<KernelChar>()._mediator3.Back();
-                RightWe._mediator3.Notify2(RightWe.gameObject, new Collider2D(), "hihi");
+               // LeftWe.Move(LeftWe.x0, LeftWe.y0, 0);
+                //LeftC.MyTurn = false;
+                //RightC.MyTurn = true;
+                //LeftWe.IsShoot = false;
+                //LeftC.GetComponent<KernelChar>()._mediator3.Back();
+                //RightWe._mediator3.Notify2(RightWe.gameObject, new Collider2D(), "hihi");
             }
             else
             {
                 LeftC.GetComponent<KernelChar>().animator.SetBool("Cry", true);
                 LeftC.GetComponent<KernelChar>().Hurted();
-                RightWe.Move(RightWe.x0, RightWe.y0, 0);
-                LeftC.MyTurn = true;
-                RightC.MyTurn = false;
-                RightWe.IsShoot = false;
-                RightC.GetComponent<KernelChar>()._mediator3.Back();
-                LeftWe._mediator3.Notify2(LeftWe.gameObject, new Collider2D(), "hihi");
+                //RightWe.Move(RightWe.x0, RightWe.y0, 0);
+                //LeftC.MyTurn = true;
+                //RightC.MyTurn = false;
+                //RightWe.IsShoot = false;
+                //RightC.GetComponent<KernelChar>()._mediator3.Back();
+                //LeftWe._mediator3.Notify2(LeftWe.gameObject, new Collider2D(), "hihi");
             }
         }
     }
@@ -258,13 +272,13 @@ public class Meidator4 : IMediator
     }
     public void Notify2(GameObject _object, Collider2D other, string ev)
     {
-        if(_object.name == LeftWe.name)
+        if(_object.name == LeftWe.name && !MainCamera.GetComponent<Camera>().Action)
         {
-            MainCamera.transform.position = LeftWe.transform.position;
+            MainCamera.transform.position = new Vector3(LeftWe.transform.position.x, 0, 0);
         }
-        else if(_object.name == RightWe.name)
+        else if(_object.name == RightWe.name && !MainCamera.GetComponent<Camera>().Action)
         {
-            MainCamera.transform.position = RightWe.transform.position;
+            MainCamera.transform.position = new Vector3(RightWe.transform.position.x, 0, 0);
         }
     }
     public string Name()

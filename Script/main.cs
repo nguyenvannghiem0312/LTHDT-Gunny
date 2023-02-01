@@ -17,6 +17,7 @@ public class main : MonoBehaviour
     public GameObject HPR;
     public GameObject MPR;
     public Camera _camera;
+    public ParticleSystem PS;
     void Start()
     {
         Red = Square.GetComponent<RedBar>();
@@ -34,7 +35,7 @@ public class main : MonoBehaviour
         WeaponConstruct.CreatWeapon(ref WeaponR, "Weapon/W03", 4, false);
         LineConstruct.CreatLine(ref LineR, "Line", false);
         new Mediator1(CharR, WeaponR, LineR);
-        new Mediator2(CharL, CharR, WeaponL, WeaponR, LineL, LineR, Square.GetComponent<RedBar>());
+        new Mediator2(CharL, CharR, WeaponL, WeaponR, LineL, LineR, Square.GetComponent<RedBar>(), _camera, PS);
         CharL.GetComponent<InterChar>().MyTurn = true;
         CharL.tag = "Player";
         CharR.GetComponent<InterChar>().MyTurn = false;
