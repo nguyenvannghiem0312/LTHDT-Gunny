@@ -16,6 +16,7 @@ public interface InterWeapon
     public IMediator _mediator2 { get; set; }
     public IMediator _mediator3 { get; set; }
     public InterControl _control { get; set; }
+    public Transform _transform { get; set; }
     public void Move(float x, float y, float z );
     public void MoveShoot();
 }

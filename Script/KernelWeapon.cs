@@ -17,6 +17,7 @@ public class KernelWeapon : MonoBehaviour, InterWeapon
     public IMediator _mediator2 { get; set; }
     public IMediator _mediator3 { get; set; }
     public InterControl _control { get; set; }
+    public Transform _transform { get; set; }
     public void Move(float x, float y, float z)
     {
         x0 = x;
@@ -54,6 +55,9 @@ public class KernelWeapon : MonoBehaviour, InterWeapon
     public void Start()
     {
         IsShoot = false;
+        _transform = transform;
+        x0 = transform.position.x;
+        y0 = transform.position.y;
     }
     public void Update()
     {

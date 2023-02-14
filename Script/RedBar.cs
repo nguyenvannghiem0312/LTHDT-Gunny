@@ -8,6 +8,7 @@ public class RedBar : MonoBehaviour
     public Camera _camera;
     public IMediator _mediator2;
     private InterControl _control = new LeftControl();
+    public InterControl _control2;
     private Transform Tr;
     private bool Increment;
     public void Start()

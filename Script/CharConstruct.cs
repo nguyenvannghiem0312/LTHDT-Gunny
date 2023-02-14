@@ -8,7 +8,7 @@ public class CharConstruct
     {
 
     }
-    public static void CreatChar(ref GameObject GO, string _sprite, string _animator, bool IsLeft)
+    public static void CreatChar(ref GameObject GO, Sprite _sprite, RuntimeAnimatorController _animator, bool IsLeft)
     {
         if (IsLeft)
         {
@@ -19,12 +19,12 @@ public class CharConstruct
             GO.name = "RightChar";
         }
         GO.AddComponent<SpriteRenderer>();
-        GO.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(_sprite);
+        GO.GetComponent<SpriteRenderer>().sprite = _sprite;
         GO.AddComponent<Rigidbody2D>();
         GO.AddComponent<PolygonCollider2D>();
         GO.transform.position = new Vector3(0, 0, 0);
         GO.AddComponent<Animator>();
-        GO.GetComponent<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(_animator) ;
+        GO.GetComponent<Animator>().runtimeAnimatorController = _animator ;
         GO.AddComponent<KernelChar>();
         GO.GetComponent<KernelChar>().animator = GO.GetComponent<Animator>();
         if (IsLeft)

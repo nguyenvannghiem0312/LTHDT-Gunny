@@ -12,6 +12,10 @@ public class KernelChar : MonoBehaviour,InterChar
     {
         HitPoint--;
         _mediator3.Hurt();
+        if(HitPoint <= 0)
+        {
+            _mediator2.Notify2(this.gameObject, new Collider2D(), "end");
+        }
         return;
     }
     public float HitPoint { get; set; }
@@ -23,6 +27,8 @@ public class KernelChar : MonoBehaviour,InterChar
     public IMediator _mediator3 { get; set; }
     public bool MyTurn { get; set; }
     public bool IsShoot { get; set; }
+    public Transform _transform { get; set; }
+    public string _name { get; set; }
     float a = 0f;
     float b = 0f;
     public void Move()
@@ -30,14 +36,14 @@ public class KernelChar : MonoBehaviour,InterChar
         if (_control.LeftDirection())
         {
             GetComponent<Transform>().localScale = new Vector3(-1.5f, GetComponent<Transform>().localScale.y, GetComponent<Transform>().localScale.z);
-            transform.position -= new Vector3(_mediator3.Move(), 0, 0);
+            _transform.position -= new Vector3(_mediator3.Move(), 0, 0);
             animator.SetBool("Velocity", true);
             _mediator.Notify("Left");
         }
         else if (_control.RightDirection())
         {
             GetComponent<Transform>().localScale = new Vector3(1.5f, GetComponent<Transform>().localScale.y, GetComponent<Transform>().localScale.z);
-            transform.position += new Vector3(_mediator3.Move(), 0, 0);
+            _transform.position += new Vector3(_mediator3.Move(), 0, 0);
             animator.SetBool("Velocity", true);
             _mediator.Notify("Right");
         }
@@ -46,9 +52,19 @@ public class KernelChar : MonoBehaviour,InterChar
             animator.SetBool("Velocity", false);
         }
     }
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.name == "DeathZone")
+        {
+            HitPoint = -10;
+            _mediator2.Notify2(this.gameObject, new Collider2D(), "end");
+        }
+    }
     void Start()
     {
         HitPoint = 10;
+        _transform = this.transform;
+        _name = this.gameObject.name;
     }
     public void Update()
     {

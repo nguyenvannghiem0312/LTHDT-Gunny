@@ -69,3 +69,4 @@ public class RightControl : InterControl
         return Input.GetButtonUp("Jump");
     }
 }
+

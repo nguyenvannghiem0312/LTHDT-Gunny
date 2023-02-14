@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class main : MonoBehaviour
 {
+    public CharacterDatabase characterDatabase;
+    public WeaponDatabase weaponDatabase;
     private GameObject CharL;
     private GameObject WeaponL;
     private GameObject LineL;
@@ -18,6 +20,7 @@ public class main : MonoBehaviour
     public GameObject MPR;
     public Camera _camera;
     public ParticleSystem PS;
+    public Store store;
     void Start()
     {
         Red = Square.GetComponent<RedBar>();
@@ -27,15 +30,31 @@ public class main : MonoBehaviour
         CharR = new GameObject();
         WeaponR = new GameObject();
         LineR = new GameObject();
-        CharConstruct.CreatChar(ref CharL, "Char/Char4", "AnimationOfChar04/Char04", true);
-        WeaponConstruct.CreatWeapon(ref WeaponL, "Weapon/W02", 4, true);
+        for (int i = 0; i < characterDatabase.CharacterCount; i++)
+        {
+            if (characterDatabase.GetCharacter(i).Isleft)
+            {
+                CharConstruct.CreatChar(ref CharL, characterDatabase.GetCharacter(i).Char, characterDatabase.GetCharacter(i).animator, true);
+
+            }
+            if (weaponDatabase.GetCharacter(i).IsLeft)
+            {
+                WeaponConstruct.CreatWeapon(ref WeaponL, weaponDatabase.GetCharacter(i).Weapon, true);
+            }
+            if (characterDatabase.GetCharacter(i).IsRight)
+            {
+                CharConstruct.CreatChar(ref CharR, characterDatabase.GetCharacter(i).Char, characterDatabase.GetCharacter(i).animator, false);
+            }
+            if (weaponDatabase.GetCharacter(i).IsRight)
+            {
+                WeaponConstruct.CreatWeapon(ref WeaponR, weaponDatabase.GetCharacter(i).Weapon, false);
+            }
+        }
         LineConstruct.CreatLine(ref LineL, "Line", true);
         new Mediator1(CharL, WeaponL, LineL);
-        CharConstruct.CreatChar(ref CharR, "Char/Char3", "AnimationOfChar03/Char03", false);
-        WeaponConstruct.CreatWeapon(ref WeaponR, "Weapon/W03", 4, false);
         LineConstruct.CreatLine(ref LineR, "Line", false);
         new Mediator1(CharR, WeaponR, LineR);
-        new Mediator2(CharL, CharR, WeaponL, WeaponR, LineL, LineR, Square.GetComponent<RedBar>(), _camera, PS);
+        new Mediator2(CharL, CharR, WeaponL, WeaponR, LineL, LineR, Square.GetComponent<RedBar>(), _camera, PS, store);
         CharL.GetComponent<InterChar>().MyTurn = true;
         CharL.tag = "Player";
         CharR.GetComponent<InterChar>().MyTurn = false;
@@ -44,12 +63,28 @@ public class main : MonoBehaviour
         LineL.GetComponent<KernelLine>()._control = CharL.GetComponent<InterChar>()._control;
         WeaponR.GetComponent<InterWeapon>()._control = CharR.GetComponent<InterChar>()._control;
         LineR.GetComponent<KernelLine>()._control = CharR.GetComponent<InterChar>()._control;
-        CharL.GetComponent<KernelChar>().transform.position = new Vector3(-18f, 3f, 0);
-        WeaponL.transform.position = new Vector3(-1.5f, 1f, 0);
-        LineL.transform.position = new Vector3(-1.5f, 0, 0);
-        CharR.GetComponent<KernelChar>().transform.position = new Vector3(12.34f, 3f, 0);
-        WeaponR.transform.position = new Vector3(1.5f, 1f, 0);
-        LineR.transform.position = new Vector3(1.5f, 0, 0);
+        if (store.GetCharacter(0).Repeat)
+        {
+            CharL.transform.position = new Vector3(store.GetCharacter(0).x, store.GetCharacter(0).y, 0);
+            CharL.GetComponent<InterChar>()._transform = CharL.transform;
+            WeaponL.transform.position = CharL.transform.position;
+            LineL.transform.position = CharL.transform.position;
+            CharR.transform.position = new Vector3(store.GetCharacter(1).x, store.GetCharacter(1).y, 0);
+            CharR.GetComponent<InterChar>()._transform = CharR.transform;
+            WeaponR.transform.position = CharR.transform.position;
+            LineR.transform.position = CharR.transform.position;
+        }
+        else
+        {
+            CharL.transform.position = new Vector3(-18f, -1.4654f, 0);
+            CharL.GetComponent<InterChar>()._transform = CharL.transform;
+            WeaponL.transform.position = CharL.transform.position;
+            LineL.transform.position = CharL.transform.position;
+            CharR.transform.position = new Vector3(12.34f, -1.3142f, 0);
+            CharR.GetComponent<InterChar>()._transform = CharR.transform;
+            WeaponR.transform.position = CharR.transform.position;
+            LineR.transform.position = CharR.transform.position;
+        }
         MPL.GetComponent<IBar>().camera1 = _camera;
         MPL.GetComponent<IBar>().IsLeft = -1;
         MPR.GetComponent<IBar>().camera1 = _camera;
@@ -59,6 +94,7 @@ public class main : MonoBehaviour
         new Mediator3(CharL, HPL.GetComponent<IBar>(), MPL.GetComponent<IBar>());
         new Mediator3(CharR, HPR.GetComponent<IBar>(), MPR.GetComponent<IBar>());
         new Meidator4(WeaponL, WeaponR, _camera);
+        _camera.transform.position = new Vector3(-16, 0, 0 );
     }
 }
     
